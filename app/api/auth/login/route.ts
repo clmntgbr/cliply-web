@@ -1,7 +1,6 @@
+import { BACKEND_API_URL, handleApiError } from "@/lib/api-helpers";
 import { setSessionCookie } from "@/lib/session";
 import { NextResponse } from "next/server";
-
-const BACKEND_API_URL = process.env.NEXT_PUBLIC_BACKEND_API_URL;
 
 export async function POST(request: Request) {
   try {
@@ -32,7 +31,7 @@ export async function POST(request: Request) {
 
     setSessionCookie(nextResponse, token);
     return nextResponse;
-  } catch {
-    return NextResponse.json({ success: false }, { status: 500 });
+  } catch (error) {
+    return handleApiError(error);
   }
 }

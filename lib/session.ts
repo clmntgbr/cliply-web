@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
+import { SESSION_COOKIE_NAME } from "./api-helpers";
 import { decodeToken, JWTPayload } from "./jwt";
 
-const SESSION_COOKIE_NAME = "session_token";
 const COOKIE_MAX_AGE = 7 * 24 * 60 * 60; // 7 days in seconds
 
 export interface SessionData {

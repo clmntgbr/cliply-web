@@ -7,7 +7,10 @@ export async function GET(request: NextRequest) {
     const auth = requireAuth(request);
     if ("error" in auth) return auth.error;
 
-    const response = await fetch(`${BACKEND_API_URL}/me`, {
+    const { searchParams } = new URL(request.url);
+    const queryString = searchParams.toString();
+
+    const response = await fetch(`${BACKEND_API_URL}/clips?${queryString}`, {
       method: "GET",
       headers: createAuthHeaders(auth.token),
     });
@@ -17,9 +20,9 @@ export async function GET(request: NextRequest) {
     }
 
     const data = await response.json();
-    const user = pick(data, ["id", "email", "firstname", "lastname", "picture", "roles"]);
+    const clips = pick(data, ["member", "totalItems", "currentPage", "itemsPerPage", "totalPages", "view"]);
 
-    return NextResponse.json(user);
+    return NextResponse.json(clips);
   } catch (error) {
     return handleApiError(error);
   }

@@ -1,25 +1,26 @@
 import { BACKEND_API_URL, createAuthHeaders, handleApiError, requireAuth } from "@/lib/api-helpers";
-import { pick } from "lodash";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: NextRequest) {
+export const maxDuration = 3600;
+
+export async function POST(request: NextRequest) {
   try {
     const auth = requireAuth(request);
     if ("error" in auth) return auth.error;
 
-    const response = await fetch(`${BACKEND_API_URL}/me`, {
-      method: "GET",
+    const formData = await request.formData();
+
+    const response = await fetch(`${BACKEND_API_URL}/clips/video`, {
+      method: "POST",
       headers: createAuthHeaders(auth.token),
+      body: formData,
     });
 
     if (!response.ok) {
       return NextResponse.json({ success: false }, { status: response.status });
     }
 
-    const data = await response.json();
-    const user = pick(data, ["id", "email", "firstname", "lastname", "picture", "roles"]);
-
-    return NextResponse.json(user);
+    return NextResponse.json({ success: true });
   } catch (error) {
     return handleApiError(error);
   }

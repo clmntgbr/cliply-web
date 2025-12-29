@@ -1,6 +1,7 @@
 import { ThemeProvider } from "@/components/layout/Theme/ThemeProvider";
 import { Toaster } from "@/components/ui/sonner";
 import { AuthProvider } from "@/lib/auth/provider";
+import { ClipProvider } from "@/lib/clip/provider";
 import { UserProvider } from "@/lib/user/provider";
 
 export default function PrivateLayout({
@@ -12,8 +13,10 @@ export default function PrivateLayout({
     <ThemeProvider attribute="class" defaultTheme="white" enableSystem disableTransitionOnChange>
       <AuthProvider>
         <UserProvider>
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 pb-16">{children}</div>
-          <Toaster richColors expand={false} position="top-right" closeButton />
+          <ClipProvider>
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 pb-16">{children}</div>
+            <Toaster richColors expand={false} position="top-right" closeButton />
+          </ClipProvider>
         </UserProvider>
       </AuthProvider>
     </ThemeProvider>
