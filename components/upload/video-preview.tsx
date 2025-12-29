@@ -1,9 +1,24 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Kbd, KbdGroup } from "@/components/ui/kbd";
-import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 import { useClips } from "@/lib/clip/context";
-import { Cancel01Icon, Clock01Icon, Film01Icon, HardDriveIcon, Loading03Icon, Playlist01Icon, Settings01Icon } from "@hugeicons/core-free-icons";
+import {
+  Cancel01Icon,
+  Clock01Icon,
+  Film01Icon,
+  HardDriveIcon,
+  Loading03Icon,
+  Playlist01Icon,
+  Settings01Icon,
+} from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -19,7 +34,13 @@ interface VideoPreviewProps {
   onProcessSuccess?: () => void;
 }
 
-export const VideoPreview = ({ open, onOpenChange, file, url, onProcessSuccess }: VideoPreviewProps) => {
+export const VideoPreview = ({
+  open,
+  onOpenChange,
+  file,
+  url,
+  onProcessSuccess,
+}: VideoPreviewProps) => {
   const { handleCreateClipVideo, handleCreateClipUrl } = useClips();
   const [isProcessing, setIsProcessing] = useState(false);
   const [duration, setDuration] = useState<string>("--:--");
@@ -68,7 +89,9 @@ export const VideoPreview = ({ open, onOpenChange, file, url, onProcessSuccess }
 
       const formattedDuration =
         hours > 0
-          ? `${hours}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`
+          ? `${hours}:${minutes.toString().padStart(2, "0")}:${seconds
+              .toString()
+              .padStart(2, "0")}`
           : `${minutes}:${seconds.toString().padStart(2, "0")}`;
 
       setDuration(formattedDuration);
@@ -106,7 +129,11 @@ export const VideoPreview = ({ open, onOpenChange, file, url, onProcessSuccess }
 
   const loadYoutubeMetadata = async (url: string) => {
     try {
-      const response = await fetch(`https://www.youtube.com/oembed?url=${encodeURIComponent(url)}&format=json`);
+      const response = await fetch(
+        `https://www.youtube.com/oembed?url=${encodeURIComponent(
+          url
+        )}&format=json`
+      );
       if (!response.ok) {
         setThumbnail(null);
         setVideoTitle("");
@@ -205,7 +232,17 @@ export const VideoPreview = ({ open, onOpenChange, file, url, onProcessSuccess }
             croppedCanvas.width = canvas.width;
             croppedCanvas.height = croppedHeight;
 
-            croppedCtx.drawImage(canvas, 0, topBar, canvas.width, croppedHeight, 0, 0, canvas.width, croppedHeight);
+            croppedCtx.drawImage(
+              canvas,
+              0,
+              topBar,
+              canvas.width,
+              croppedHeight,
+              0,
+              0,
+              canvas.width,
+              croppedHeight
+            );
 
             resolve(croppedCanvas.toDataURL("image/jpeg", 0.9));
             return;
@@ -248,15 +285,15 @@ export const VideoPreview = ({ open, onOpenChange, file, url, onProcessSuccess }
       if (url) {
         const requestBody: {
           url: string;
-          name: string;
-          thumbnail_file?: string;
+          originalName: string;
+          thumbnail?: string;
         } = {
           url: url,
-          name: videoTitle,
+          originalName: videoTitle,
         };
 
         if (thumbnail) {
-          requestBody.thumbnail_file = thumbnail;
+          requestBody.thumbnail = thumbnail;
         }
 
         await handleCreateClipUrl(requestBody);
@@ -284,7 +321,11 @@ export const VideoPreview = ({ open, onOpenChange, file, url, onProcessSuccess }
           }
         }}
       >
-        <SheetContent side="top" className="max-w-[100vw] w-screen" style={{ height: "100vh" }}>
+        <SheetContent
+          side="top"
+          className="max-w-[100vw] w-screen"
+          style={{ height: "100vh" }}
+        >
           <SheetHeader className="px-4 pt-6 pb-4 border-b gap-2">
             <Button
               variant="ghost"
@@ -336,14 +377,26 @@ export const VideoPreview = ({ open, onOpenChange, file, url, onProcessSuccess }
           <SheetFooter>
             <div className="backdrop-blur-xl px-6 py-4">
               <div className="flex justify-center gap-3 mx-auto">
-                <Button onClick={() => setIsSettingsOpen(true)} variant="outline" disabled={isProcessing} className="cursor-pointer">
-                  <HugeiconsIcon icon={Settings01Icon} className="h-3 w-3 mr-2" />
+                <Button
+                  onClick={() => setIsSettingsOpen(true)}
+                  variant="outline"
+                  disabled={isProcessing}
+                  className="cursor-pointer"
+                >
+                  <HugeiconsIcon
+                    icon={Settings01Icon}
+                    className="h-3 w-3 mr-2"
+                  />
                   Settings
                   <KbdGroup className="ml-2">
                     <Kbd>⌘ + j</Kbd>
                   </KbdGroup>
                 </Button>
-                <Button onClick={handleProcessVideo} disabled={isProcessing} className="cursor-pointer">
+                <Button
+                  onClick={handleProcessVideo}
+                  disabled={isProcessing}
+                  className="cursor-pointer"
+                >
                   <KbdGroup className="mr-2">
                     <Kbd className="bg-black/10 backdrop-blur-md text-white border-white/20 rounded-md px-2 py-1 dark:bg-white/10 dark:border-black/20 dark:text-black">
                       ⌘ + e
@@ -351,9 +404,15 @@ export const VideoPreview = ({ open, onOpenChange, file, url, onProcessSuccess }
                   </KbdGroup>
                   {isProcessing ? "Processing..." : "Process"}
                   {isProcessing ? (
-                    <HugeiconsIcon icon={Loading03Icon} className="ml-2 h-4 w-4 animate-spin" />
+                    <HugeiconsIcon
+                      icon={Loading03Icon}
+                      className="ml-2 h-4 w-4 animate-spin"
+                    />
                   ) : (
-                    <HugeiconsIcon icon={Playlist01Icon} className="ml-2 h-4 w-4" />
+                    <HugeiconsIcon
+                      icon={Playlist01Icon}
+                      className="ml-2 h-4 w-4"
+                    />
                   )}
                 </Button>
               </div>

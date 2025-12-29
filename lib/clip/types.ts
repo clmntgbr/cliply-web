@@ -13,11 +13,16 @@ export interface Video {
 
 export interface Clip {
   id: string;
+  createdAt: string;
   originalVideo: Video;
   thumbnail: string;
   status: string;
   user: string;
   statuses: string[];
+  isDownloadable: boolean;
+  isCompleted: boolean;
+  isFailed: boolean;
+  isProcessing: boolean;
 }
 
 export interface ClipState {
@@ -28,8 +33,8 @@ export interface ClipState {
 
 export interface ClipUrlRequestBody {
   url: string;
-  name: string;
-  thumbnail_file?: string;
+  originalName: string;
+  thumbnail?: string;
 }
 
 export interface ClipVideoRequestBody {
