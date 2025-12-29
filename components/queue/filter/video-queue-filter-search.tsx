@@ -17,13 +17,6 @@ const VideoQueueFilterSearchComponent = forwardRef<VideoQueueFilterSearchRef, Vi
   const [search, setSearch] = useState<string>(value ?? "");
   const timeoutRef = useRef<NodeJS.Timeout>(null);
 
-  useEffect(() => {
-    setSearch(value ?? "");
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
-  }, [value]);
-
   const handleClearSearch = () => {
     setSearch("");
     if (timeoutRef.current) {

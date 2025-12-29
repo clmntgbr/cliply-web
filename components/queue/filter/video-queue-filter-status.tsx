@@ -51,7 +51,7 @@ const VideoQueueFilterStatusComponent = forwardRef<VideoQueueFilterStatusRef, Vi
     <>
       <Popover open={isFilterOpen} onOpenChange={setIsFilterOpen} modal={false}>
         <PopoverTrigger asChild>
-          <Button variant="outline" size="sm" className="h-8 border-dashed cursor-pointer hover:bg-accent hover:text-accent-foregroun dark:bg-input">
+          <Button variant="outline" size="sm" className="h-8 border-dashed cursor-pointer hover:bg-accent hover:text-accent-foreground dark:bg-input">
             <HugeiconsIcon icon={PlusSignCircleFreeIcons} />
             Filter by status
             {selectedStatuses && selectedStatuses.length > 0 && (
